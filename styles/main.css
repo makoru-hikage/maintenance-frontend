@@ -1,0 +1,7 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+.skel-outline {
+  @apply border-4 border-solid dark:border-white border-black;
+}
