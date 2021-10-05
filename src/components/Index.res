@@ -1,27 +1,11 @@
-
-let columnFields = [
-  "Area Code",
-  "Description",
-  "Floor",
-  "Row",
-  "Column",
-  "Actions",
-]
-
-let columnHeaders = Belt.Array.mapWithIndex(columnFields, (id, field) => {
-  <th key={Belt.Int.toString(id)}>{React.string(field)}</th>
-})
-
 @react.component
 let make = () => {
-  <div>
-    <table>
-      <thead>
-        <tr>
-          {React.array(columnHeaders)}
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+  <div className="mx-16">
+    <div id="top-buttons">
+      <button className="text-black dark:text-white p-4">{React.string("Add")}</button>
+    </div>
+    <div id="table-container">
+      <FloorAreaTable/>
+    </div>
   </div>
 }
