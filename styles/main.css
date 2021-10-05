@@ -7,5 +7,5 @@
 }
 
 .index-td {
-  @apply p-2 md:border text-left block md:table-cell
+  @apply p-2 md:border text-left block md:table-cell text-black dark:text-white
 }
