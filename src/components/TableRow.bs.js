@@ -5,9 +5,24 @@ import * as React from "react";
 function TableRow(Props) {
   var areaCode = Props.areaCode;
   var description = Props.description;
+  var floor = Props.floor;
   var row = Props.row;
   var column = Props.column;
-  return React.createElement("tr", undefined, React.createElement("td", undefined, areaCode), React.createElement("td", undefined, description), React.createElement("td", undefined, row), React.createElement("td", undefined, column));
+  return React.createElement("tr", {
+              key: "React.string(areaCode)"
+            }, React.createElement("td", {
+                  className: "index-td"
+                }, areaCode), React.createElement("td", {
+                  className: "index-td"
+                }, description), React.createElement("td", {
+                  className: "index-td"
+                }, floor), React.createElement("td", {
+                  className: "index-td"
+                }, row), React.createElement("td", {
+                  className: "index-td"
+                }, column), React.createElement("td", {
+                  className: "index-td"
+                }, "+-~"));
 }
 
 var make = TableRow;

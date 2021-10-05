@@ -3,6 +3,14 @@
 import * as React from "react";
 import * as FloorAreaTable from "./FloorAreaTable.bs.js";
 
+var perhaps = {
+  areaCode: "perhaps",
+  description: "perhaps",
+  floor: "perhaps",
+  row: 0,
+  column: 0
+};
+
 function Index(Props) {
   return React.createElement("div", {
               className: "mx-16"
@@ -12,12 +20,15 @@ function Index(Props) {
                       className: "text-black dark:text-white p-4"
                     }, "Add")), React.createElement("div", {
                   id: "table-container"
-                }, React.createElement(FloorAreaTable.make, {})));
+                }, React.createElement(FloorAreaTable.make, {
+                      floorAreas: [perhaps]
+                    })));
 }
 
 var make = Index;
 
 export {
+  perhaps ,
   make ,
   
 }
