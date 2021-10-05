@@ -1,3 +1,11 @@
 .skel-outline {
   @apply border-4 border-solid dark:border-white border-black;
 }
+
+.index-th {
+  @apply dark:bg-gray-600 bg-gray-300 p-2 dark:text-white text-black font-bold md:border text-left block md:table-cell
+}
+
+.index-td {
+  @apply p-2 md:border text-left block md:table-cell
+}
