@@ -1,5 +1,18 @@
 module LoginAction = {
 
+  type jsonToken = {
+    token: string
+  }
+
+  @scope("JSON") @val external parseTokenJson: string => jsonToken = "parse"
+
+  let storeToken = token => {
+    let tokenParts = Js.String.split(".", token)
+    Dom.Storage.setItem("header", tokenParts[0], Dom.Storage.localStorage)
+    Dom.Storage.setItem("payload", tokenParts[1], Dom.Storage.localStorage)
+    Cookie.setCookie("token-signature", tokenParts[2])
+  }
+
   let login = (u: string, p: string): () => {
     let user = {
       "username": u,
@@ -15,11 +28,20 @@ module LoginAction = {
     Request.make(
       ~url= url ++ "/api/login",
       ~method=#POST,
-      ~responseType=Json,
+      ~responseType=Text,
       ~body=Js.Json.serializeExn(user),
       ~headers=headers, 
       ())
-    ->Future.get(Js.log)
+    ->Future.get(response => {
+      switch response {
+      | Ok({response}) =>
+        {
+          storeToken(parseTokenJson(Belt.Option.getExn(response)).token)
+        }
+      | Error(error) =>
+        Js.log(error)
+      }
+    })
   }
 }
 

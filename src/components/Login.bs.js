@@ -2,12 +2,22 @@
 
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
+import * as Cookie from "../Cookie.bs.js";
 import * as Future from "rescript-future/src/Future.bs.js";
 import * as Js_dict from "rescript/lib/es6/js_dict.js";
 import * as Js_json from "rescript/lib/es6/js_json.js";
 import * as $$Request from "rescript-request/src/Request.bs.js";
+import * as Caml_array from "rescript/lib/es6/caml_array.js";
 import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 import * as Caml_option from "rescript/lib/es6/caml_option.js";
+import * as Dom_storage from "rescript/lib/es6/dom_storage.js";
+
+function storeToken(token) {
+  var tokenParts = token.split(".");
+  Dom_storage.setItem("header", Caml_array.get(tokenParts, 0), localStorage);
+  Dom_storage.setItem("payload", Caml_array.get(tokenParts, 1), localStorage);
+  return Cookie.setCookie("token-signature", Caml_array.get(tokenParts, 2));
+}
 
 function login(u, p) {
   var user = {
@@ -24,13 +34,17 @@ function login(u, p) {
         ],
         tl: /* [] */0
       });
-  return Future.get($$Request.make(url + "/api/login", "POST", /* Json */4, Js_json.serializeExn(user), Caml_option.some(headers), undefined, undefined, undefined, undefined, undefined), (function (prim) {
-                console.log(prim);
+  return Future.get($$Request.make(url + "/api/login", "POST", /* Text */0, Js_json.serializeExn(user), Caml_option.some(headers), undefined, undefined, undefined, undefined, undefined), (function (response) {
+                if (response.TAG === /* Ok */0) {
+                  return storeToken(JSON.parse(Belt_Option.getExn(response._0.response)).token);
+                }
+                console.log(response._0);
                 
               }));
 }
 
 var LoginAction = {
+  storeToken: storeToken,
   login: login
 };
 
