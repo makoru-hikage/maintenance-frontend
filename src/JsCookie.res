@@ -5,3 +5,11 @@ let setCookie = %raw(`
     document.cookie = name + "=" + value + "; SameSite=Strict;";
   }
 `)
+
+let getCookie = () => cookie
+
+let deleteCookie = %raw(`
+  function(name, value) {
+    document.cookie = "";
+  }
+`)
