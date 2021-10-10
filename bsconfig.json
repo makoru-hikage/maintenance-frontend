@@ -17,6 +17,7 @@
   "bs-dependencies": [
     "@rescript/react",
     "rescript-request",
-    "rescript-future"
+    "rescript-future",
+    "rescript-cookie"
   ]
 }
