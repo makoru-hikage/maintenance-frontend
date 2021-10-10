@@ -10,7 +10,7 @@ module LoginAction = {
     let tokenParts = Js.String.split(".", token)
     Dom.Storage.setItem("header", tokenParts[0], Dom.Storage.localStorage)
     Dom.Storage.setItem("payload", tokenParts[1], Dom.Storage.localStorage)
-    Cookie.setCookie("token-signature", tokenParts[2])
+    JsCookie.setCookie("token-signature", tokenParts[2])
   }
 
   let login = (u: string, p: string): () => {

@@ -2,11 +2,11 @@
 
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
-import * as Cookie from "../Cookie.bs.js";
 import * as Future from "rescript-future/src/Future.bs.js";
 import * as Js_dict from "rescript/lib/es6/js_dict.js";
 import * as Js_json from "rescript/lib/es6/js_json.js";
 import * as $$Request from "rescript-request/src/Request.bs.js";
+import * as JsCookie from "../JsCookie.bs.js";
 import * as Caml_array from "rescript/lib/es6/caml_array.js";
 import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 import * as Caml_option from "rescript/lib/es6/caml_option.js";
@@ -16,7 +16,7 @@ function storeToken(token) {
   var tokenParts = token.split(".");
   Dom_storage.setItem("header", Caml_array.get(tokenParts, 0), localStorage);
   Dom_storage.setItem("payload", Caml_array.get(tokenParts, 1), localStorage);
-  return Cookie.setCookie("token-signature", Caml_array.get(tokenParts, 2));
+  return JsCookie.setCookie("token-signature", Caml_array.get(tokenParts, 2));
 }
 
 function login(u, p) {
