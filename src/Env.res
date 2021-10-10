@@ -1,0 +1,1 @@
+@val @scope(("import", "meta","env")) @return(nullable) external apiHost: option<string> = "VITE_API_HOST"

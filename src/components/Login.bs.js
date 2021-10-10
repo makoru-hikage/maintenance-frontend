@@ -2,16 +2,49 @@
 
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
+import * as Future from "rescript-future/src/Future.bs.js";
+import * as Js_dict from "rescript/lib/es6/js_dict.js";
+import * as Js_json from "rescript/lib/es6/js_json.js";
+import * as $$Request from "rescript-request/src/Request.bs.js";
+import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
+import * as Caml_option from "rescript/lib/es6/caml_option.js";
+
+function login(u, p) {
+  var user = {
+    username: u,
+    password: p
+  };
+  var url = Belt_Option.mapWithDefault(Caml_option.nullable_to_opt(import.meta.env.VITE_API_HOST), "", (function (x) {
+          return x;
+        }));
+  var headers = Js_dict.fromList({
+        hd: [
+          "Content-Type",
+          "application/json"
+        ],
+        tl: /* [] */0
+      });
+  return Future.get($$Request.make(url + "/api/login", "POST", /* Json */4, Js_json.serializeExn(user), Caml_option.some(headers), undefined, undefined, undefined, undefined, undefined), (function (prim) {
+                console.log(prim);
+                
+              }));
+}
+
+var LoginAction = {
+  login: login
+};
 
 function Login$LoginForm(Props) {
   var match = React.useState(function () {
         return "";
       });
   var setUsername = match[1];
+  var username = match[0];
   var match$1 = React.useState(function () {
         return "";
       });
   var setPassword = match$1[1];
+  var password = match$1[0];
   var usernameChange = function (evt) {
     evt.preventDefault();
     var value = evt.target.value;
@@ -25,6 +58,10 @@ function Login$LoginForm(Props) {
     return Curry._1(setPassword, (function (_prev) {
                   return value;
                 }));
+  };
+  var login$1 = function (evt) {
+    evt.preventDefault();
+    return login(username, password);
   };
   return React.createElement("div", {
               className: "inline-block align-bottom bg-gray-400 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
@@ -40,7 +77,7 @@ function Login$LoginForm(Props) {
                           id: "username-field",
                           name: "username",
                           type: "text",
-                          value: match[0],
+                          value: username,
                           onChange: usernameChange
                         })), React.createElement("div", {
                       className: "m-4"
@@ -52,13 +89,14 @@ function Login$LoginForm(Props) {
                           id: "password-field",
                           name: "password",
                           type: "password",
-                          value: match$1[0],
+                          value: password,
                           onChange: passwordChange
                         })), React.createElement("div", {
                       className: "m-4"
                     }, React.createElement("button", {
                           className: "text-black p-2 border align-end bg-gray-400",
-                          id: "login-button"
+                          id: "login-button",
+                          onClick: login$1
                         }, "Login"))));
 }
 
@@ -77,6 +115,7 @@ var LoginModal = {
 };
 
 export {
+  LoginAction ,
   LoginForm ,
   LoginModal ,
   

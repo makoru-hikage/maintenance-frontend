@@ -1,3 +1,28 @@
+module LoginAction = {
+
+  let login = (u: string, p: string): () => {
+    let user = {
+      "username": u,
+      "password": p
+    }
+
+    let url = Env.apiHost->Belt.Option.mapWithDefault("", x => x)
+
+    let headers = Js.Dict.fromList(list{
+      ("Content-Type", "application/json")
+    })
+
+    Request.make(
+      ~url= url ++ "/api/login",
+      ~method=#POST,
+      ~responseType=Json,
+      ~body=Js.Json.serializeExn(user),
+      ~headers=headers, 
+      ())
+    ->Future.get(Js.log)
+  }
+}
+
 module LoginForm = {
   @react.component
   let make = () => {
@@ -17,6 +42,11 @@ module LoginForm = {
     setPassword(_prev => value);
   }
 
+  let login = (evt) => {
+    ReactEvent.Mouse.preventDefault(evt)
+    LoginAction.login(username, password)
+  }
+
     <div className="inline-block align-bottom bg-gray-400 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
       <form className="flex flex-col flex-wrap px-8 pt-6 pb-8 mb-4 bg-gray-300">
         <div className="m-4">
@@ -28,7 +58,7 @@ module LoginForm = {
           <input onChange=passwordChange type_="password" name="password" id="password-field" value=password className="border shadow table-cell"/>
         </div>
         <div className="m-4">
-          <button id="login-button" className="text-black p-2 border align-end bg-gray-400">{React.string("Login")}</button>
+          <button onClick=login id="login-button" className="text-black p-2 border align-end bg-gray-400">{React.string("Login")}</button>
         </div>
       </form>
     </div>
